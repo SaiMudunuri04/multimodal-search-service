@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: ghcr.io/saimudunuri04/multimodal-search-service
-  tag: "0.1.0"
+  tag: "bf39a87637fab1233b72f3d8287ed876306bc16e"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
