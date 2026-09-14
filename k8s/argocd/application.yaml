@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/SaiMudunuri04/multimodal-search-service.git
     targetRevision: main
-    path: helm/chart
+    path: k8s/helm/multimodal-search-service
   destination:
     server: https://kubernetes.default.svc
     namespace: multimodal-search-service

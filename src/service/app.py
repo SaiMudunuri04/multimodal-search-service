@@ -8,8 +8,10 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .multimodal import CLIPEncoder, build_index, load_catalog, search
+from .observability import RequestLoggingMiddleware
 
 app = FastAPI(title="Multimodal search", version="0.1.0")
+app.add_middleware(RequestLoggingMiddleware)
 
 
 class Query(BaseModel):
