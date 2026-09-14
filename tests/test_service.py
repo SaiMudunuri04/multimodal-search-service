@@ -23,3 +23,16 @@ def test_catalog_cannot_escape_root(tmp_path):
     catalog.write_text('{"id":"x","image_path":"../secret.png"}\n')
     with pytest.raises(ValueError, match="Invalid image path"):
         multimodal.load_catalog(catalog, tmp_path)
+
+
+def test_embedding_dimensions_must_match():
+    class BadEncoder(FakeEncoder):
+        def text(self, text):
+            return [1., 0., 0.]
+
+    rows = [{"id": "cat", "caption": "cat", "image_path": "/tmp/cat.png"}]
+    with pytest.raises(ValueError, match="Caption and image"):
+        multimodal.build_index(rows, BadEncoder())
+    indexed = multimodal.build_index([{**rows[0], "caption": ""}], FakeEncoder())
+    with pytest.raises(ValueError, match="Query and catalog"):
+        multimodal.search("cat", indexed, BadEncoder())

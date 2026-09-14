@@ -74,11 +74,18 @@ def build_index(records: list[dict], encoder: Encoder, caption_weight: float = 0
     if not 0 <= caption_weight <= 1:
         raise ValueError("caption_weight must be between 0 and 1")
     indexed = []
+    dimensions = None
     for record in records:
         visual = normalize(encoder.image(Path(record["image_path"])))
+        if dimensions is None:
+            dimensions = len(visual)
+        elif len(visual) != dimensions:
+            raise ValueError("Image embedding dimensions differ")
         caption = record["caption"]
         if caption:
             textual = normalize(encoder.text(caption))
+            if len(textual) != len(visual):
+                raise ValueError("Caption and image embedding dimensions differ")
             vector = normalize([(1 - caption_weight) * v + caption_weight * t
                                 for v, t in zip(visual, textual)])
         else:
@@ -91,6 +98,8 @@ def search(query: str, indexed: list[dict], encoder: Encoder, limit: int = 5) ->
     if not query.strip() or limit < 1:
         raise ValueError("A nonempty query and positive limit are required")
     question = normalize(encoder.text(query))
+    if any(len(item["embedding"]) != len(question) for item in indexed):
+        raise ValueError("Query and catalog embedding dimensions differ")
     ranked = sorted(indexed,
                     key=lambda item: (-sum(a * b for a, b in zip(question, item["embedding"])), item["id"]))
     return [{"id": item["id"], "image_path": item["image_path"],
