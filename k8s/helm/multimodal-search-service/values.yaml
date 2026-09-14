@@ -6,7 +6,7 @@ podLabels: {}
 podAnnotations: {}
 image:
   repository: ghcr.io/saimudunuri04/multimodal-search-service
-  tag: "7bab825f84c569bb8f4299fb0aa86aca3ed22c93"
+  tag: "9ebac57a3cc107e8670ab9eca43c79fb3dc58d13"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 serviceAccount:
