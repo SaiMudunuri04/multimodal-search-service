@@ -7,6 +7,10 @@ a container, Helm release, Argo CD application, and a CI workflow that builds an
 immutable GHCR image after tests pass. It is a reference implementation; it has not
 been deployed to a user's AWS account or Kubernetes cluster.
 
+## Start here
+
+**Problem:** retrieve catalog images from text queries with a transparent ranking path. **What this demonstrates:** CLIP image and caption embeddings, catalog validation, normalized similarity ranking, and a bounded search API. **Inspect first:** [`docs/architecture.md`](docs/architecture.md), [`src/service/app.py`](src/service/app.py), and the retrieval tests.
+
 ## Run
 
 ```sh
